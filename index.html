@@ -11,6 +11,8 @@
   :root {
     --fg: #211a2e;
     --muted: #5b4f6e;
+    --accent: #8c5fb0;
+    --accent-dark: #6f4790;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
@@ -86,8 +88,32 @@
     color: var(--muted);
     letter-spacing: 0.01em;
   }
+  .cta {
+    position: fixed;
+    left: 50%;
+    bottom: 2.25rem;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: inline-block;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    text-decoration: none;
+    padding: 0.75rem 1.6rem;
+    border-radius: 999px;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .cta:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+    transform: translateX(-50%) translateY(-1px);
+  }
   @media (prefers-reduced-motion: reduce) {
     .bloom-wrap, .bloom, .bloom-white { transition: none; }
+    .cta { transition: none; }
   }
 </style>
 </head>
@@ -102,7 +128,7 @@
   <main>
     <h1>Tereza Novotná</h1>
     <p>Creative Technologist &middot; Product Designer &middot; Builder</p>
-    <p style="margin-top: 1.5rem;"><a href="portfolio/index.html" style="color: var(--fg); font-weight: 600;">Design mentorship &rarr;</a></p>
   </main>
+  <a class="cta" href="portfolio/index.html">Design mentorship &rarr;</a>
 </body>
 </html>
