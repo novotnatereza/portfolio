@@ -17,6 +17,8 @@
     height: 100%;
   }
   body {
+    position: relative;
+    overflow: hidden;
     color: var(--fg);
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     display: flex;
@@ -24,15 +26,52 @@
     justify-content: center;
     text-align: center;
     padding: 2rem;
-    background:
-      radial-gradient(38% 42% at 18% 20%, #ffe7c7 0%, rgba(255,231,199,0) 100%),
-      radial-gradient(46% 50% at 82% 15%, #ffc6da 0%, rgba(255,198,218,0) 100%),
-      radial-gradient(55% 60% at 78% 85%, #d9c2f0 0%, rgba(217,194,240,0) 100%),
-      radial-gradient(50% 55% at 15% 88%, #ffd6c2 0%, rgba(255,214,194,0) 100%),
-      linear-gradient(160deg, #fff3e6 0%, #fbe4ee 45%, #ecdcf6 100%);
-    background-attachment: fixed;
+    background: linear-gradient(160deg, #fff3e6 0%, #fbe4ee 45%, #ecdcf6 100%);
+  }
+  .bloom-wrap {
+    position: fixed;
+    inset: -30%;
+    pointer-events: none;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  body:hover .bloom-wrap {
+    transform: scale(1.8);
+  }
+  .bloom {
+    position: absolute;
+    inset: 0;
+    filter: saturate(1);
+    transition: filter 0.5s ease;
+  }
+  .bloom--1 { background: radial-gradient(45% 50% at 18% 20%, #ffe7c7 0%, rgba(255,231,199,0) 100%); }
+  .bloom--2 { background: radial-gradient(54% 58% at 82% 15%, #ffc6da 0%, rgba(255,198,218,0) 100%); }
+  .bloom--3 { background: radial-gradient(62% 66% at 78% 85%, #d9c2f0 0%, rgba(217,194,240,0) 100%); }
+  .bloom--4 { background: radial-gradient(58% 62% at 15% 88%, #ffd6c2 0%, rgba(255,214,194,0) 100%); }
+  body:hover .bloom {
+    filter: saturate(2.3) brightness(1.1);
+  }
+  .bloom-white {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 22vmin;
+    height: 22vmin;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #ffffff 0%, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0) 75%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  }
+  body:hover .bloom-white {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
   }
   main {
+    position: relative;
+    z-index: 1;
     max-width: 32rem;
   }
   h1 {
@@ -47,12 +86,23 @@
     color: var(--muted);
     letter-spacing: 0.01em;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .bloom-wrap, .bloom, .bloom-white { transition: none; }
+  }
 </style>
 </head>
 <body>
+  <div class="bloom-wrap">
+    <div class="bloom bloom--1"></div>
+    <div class="bloom bloom--2"></div>
+    <div class="bloom bloom--3"></div>
+    <div class="bloom bloom--4"></div>
+  </div>
+  <div class="bloom-white"></div>
   <main>
     <h1>Tereza Novotná</h1>
     <p>Creative Technologist &middot; Product Designer &middot; Builder</p>
+    <p style="margin-top: 1.5rem;"><a href="portfolio/index.html" style="color: var(--fg); font-weight: 600;">Design mentorship &rarr;</a></p>
   </main>
 </body>
 </html>
