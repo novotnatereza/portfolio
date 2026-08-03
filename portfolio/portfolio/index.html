@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Mentorship — Tereza Novotná</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #211a2e;
+    --muted: #5b4f6e;
+    --accent: #8c5fb0;
+    --accent-dark: #6f4790;
+    --card: rgba(255, 255, 255, 0.55);
+    --card-border: rgba(255, 255, 255, 0.7);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    position: relative;
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(160deg, #fff3e6 0%, #fbe4ee 45%, #ecdcf6 100%);
+  }
+  .bloom-wrap {
+    position: fixed;
+    inset: -30%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bloom { position: absolute; inset: 0; }
+  .bloom--1 { background: radial-gradient(45% 50% at 18% 20%, #ffe7c7 0%, rgba(255,231,199,0) 100%); }
+  .bloom--2 { background: radial-gradient(54% 58% at 82% 15%, #ffc6da 0%, rgba(255,198,218,0) 100%); }
+  .bloom--3 { background: radial-gradient(62% 66% at 78% 85%, #d9c2f0 0%, rgba(217,194,240,0) 100%); }
+  .bloom--4 { background: radial-gradient(58% 62% at 15% 88%, #ffd6c2 0%, rgba(255,214,194,0) 100%); }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+  }
+  nav a {
+    color: var(--fg);
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+  nav a:hover { color: var(--accent-dark); }
+
+  .badge {
+    display: inline-block;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+  .badge-purple {
+    background: rgba(217, 194, 240, 0.55);
+    border: 1px solid rgba(217, 194, 240, 0.9);
+    color: #4a3668;
+  }
+
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  .badge-glow-wrap {
+    display: inline-block;
+    padding: 2.5px;
+    border-radius: 999px;
+    background: conic-gradient(from var(--angle), #8c5fb0, #f0a0c0, #ffcf9e, #8c5fb0);
+    animation: badge-spin 4s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(140, 95, 176, 0.55));
+  }
+  @keyframes badge-spin { to { --angle: 360deg; } }
+  .badge-glow {
+    display: block;
+    background: #fdf3ea;
+    color: #4a3668;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .badge-glow-wrap { animation: none; }
+  }
+
+  h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    line-height: 1.25;
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 40rem;
+  }
+  .lead strong { color: var(--fg); }
+
+  .badges-row { margin-top: 1.75rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  section { margin-top: 4.5rem; }
+
+  h2 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    margin-bottom: 1.75rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+  }
+
+  .icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--accent-dark);
+    margin-bottom: 0.9rem;
+  }
+  .icon svg { width: 100%; height: 100%; }
+
+  .card h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+
+  .price-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card.featured {
+    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .price-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+  }
+  .price-amount {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0.6rem 0 0.8rem;
+  }
+  .price-card p.desc {
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+  }
+  .btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-outline {
+    color: var(--fg);
+    background: transparent;
+    border: 1px solid rgba(33, 26, 46, 0.25);
+  }
+  .btn-outline:hover { border-color: var(--fg); }
+  .btn-solid {
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-solid:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 1rem;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(6px);
+  }
+  .stat-number {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 6vw, 3rem);
+    color: var(--accent-dark);
+  }
+  .stat-caption { color: var(--muted); margin-top: 0.5rem; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(33, 26, 46, 0.12);
+    margin: 3rem 0;
+  }
+
+  .faq h2 { margin-bottom: 1rem; }
+  .faq p { color: var(--muted); line-height: 1.7; max-width: 42rem; }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .contact p { color: var(--muted); line-height: 1.7; max-width: 30rem; margin-top: 0.5rem; }
+
+  @media (max-width: 30rem) {
+    .contact { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+  <div class="bloom-wrap">
+    <div class="bloom bloom--1"></div>
+    <div class="bloom bloom--2"></div>
+    <div class="bloom bloom--3"></div>
+    <div class="bloom bloom--4"></div>
+  </div>
+
+  <div class="wrap">
+    <nav>
+      <a href="../index.html">&larr; Tereza Novotná</a>
+    </nav>
+
+    <span class="badge-glow-wrap"><span class="badge-glow">Design Mentorship</span></span>
+
+    <h1>I'm here to listen, guide, and give you feedback you can actually use. Think of me as your creative co-pilot — every session, we move the needle.</h1>
+
+    <p class="lead"><strong>How it works:</strong> Together, we get clear on what you're chasing — a new role, your creative spark back, a niche that's truly yours, or sharper storytelling around your work. Then we build the roadmap, and I'm with you at every step.</p>
+
+    <div class="badges-row">
+      <span class="badge badge-purple">Remote</span>
+      <span class="badge badge-purple">In person in Prague</span>
+    </div>
+
+    <section>
+      <h2>Qualities I offer as a mentor</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+          </div>
+          <h3>Active listening &amp; a safe space</h3>
+          <p>I help name what's going on and give it structure — without pressure or judgment.</p>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          </div>
+          <h3>Facilitating the conversation</h3>
+          <p>I keep our meetings usefully on track, asking the questions that steer toward what matters most to you right now.</p>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <h3>Quality, clear feedback</h3>
+          <p>Feedback that's concrete, actionable, and moves you forward — never vague or purely critical.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Pricing</h2>
+      <div class="cards">
+        <div class="card price-card">
+          <span class="price-label">Single session</span>
+          <span class="price-amount">1 000 Kč</span>
+          <p class="desc">One focused hour — good for any conversation, portfolio review, or working through a specific problem.</p>
+        </div>
+        <div class="card price-card featured">
+          <span class="price-label">5-session package</span>
+          <span class="price-amount">3 750 Kč</span>
+          <p class="desc">One-off mentoring is great, but a longer program brings real benefits. Five sessions to build real momentum.</p>
+        </div>
+        <div class="card price-card">
+          <span class="price-label">10-session package</span>
+          <span class="price-amount">7 500 Kč</span>
+          <p class="desc">For a full career shift or a deep push on your craft — ten sessions from first steps to real results.</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a class="btn btn-solid" href="https://forms.gle/yue5nVTb1psceGhP9" target="_blank" rel="noopener">Let's work together</a>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section>
+      <h2>What mentees say</h2>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-caption">hiring rate among mentees who completed a program</div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="faq">
+      <h2>Is it worth paying for a product design mentor?</h2>
+      <p>Yes — a mentor reviews your real work and gives you honest critique. As your design mentor I cover the whole role, not just the pretty screens: strategy, stakeholder trade-offs, and craft.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section class="contact">
+      <div>
+        <h2 style="margin-bottom: 0;">Get in touch</h2>
+        <p>Let's see if there's chemistry and we can work together — book a first session below, or reach out directly at <a href="mailto:novotna.ter@gmail.com" style="color: var(--accent-dark); font-weight: 600;">novotna.ter@gmail.com</a>. Your first session is always free</p>
+      </div>
+      <a class="btn btn-solid" href="https://forms.gle/yue5nVTb1psceGhP9" target="_blank" rel="noopener">Let's work together</a>
+    </section>
+  </div>
+</body>
+</html>
